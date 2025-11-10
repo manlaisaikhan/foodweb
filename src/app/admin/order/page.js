@@ -20,7 +20,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-import { Sidebeer } from "../components/sidebar";
+import { Sidebeer } from "../../../_components/sidebar";
 
 export default function OrdersTable() {
   const [orders, setOrders] = useState([

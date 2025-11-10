@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Foodicon } from "../icon/foodicon";
+import { Foodicon } from "../app/admin/icon/foodicon";
 import { LiaMicrosoft } from "react-icons/lia";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { useRouter } from "next/navigation";

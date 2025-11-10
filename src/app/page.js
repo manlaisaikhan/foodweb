@@ -1,18 +1,28 @@
-"use client";
-import Image from "next/image";
-import { DiRuby } from "react-icons/di";
+import CategorySection from "@/_components/categorysection";
+import Header from "@/_components/header";
+import OfferBanner from "@/_components/OfferBanner";
 
-import { Sidebeer } from "./admin/components/sidebar";
-import OrdersTable from "./admin/components/adminorder";
-export default function Home() {
+export default function HomePage() {
+  const appetizers = [
+    { title: "Finger food", price: "12.99", image: "/foods/finger.jpg" },
+    { title: "Cranberry Brie Bites", price: "10.99", image: "/foods/brie.jpg" },
+  ];
+  const salads = [
+    {
+      title: "Grilled Chicken Salad",
+      price: "14.99",
+      image: "/foods/salad.jpg",
+    },
+  ];
+
   return (
-    <div className="w-screen h-screen flex flex-row justify-around">
-      <div className="flex w-[205px] h-screen bg-white">
-        <Sidebeer />
+    <main className="bg-gray-50 min-h-screen">
+      <Header />
+      <OfferBanner />
+      <div className="container mx-auto px-4 py-8">
+        <CategorySection title="Appetizers" items={appetizers} />
+        <CategorySection title="Salads" items={salads} />
       </div>
-      <div className="w-full flex justify-center">
-        <OrdersTable />
-      </div>
-    </div>
+    </main>
   );
 }
