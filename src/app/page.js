@@ -1,6 +1,8 @@
 import CategorySection from "@/_components/categorysection";
+import Footeer from "@/_components/footer";
 import Header from "@/_components/header";
 import OfferBanner from "@/_components/OfferBanner";
+import { Footer } from "react-day-picker";
 
 export default function HomePage() {
   const appetizers = [
@@ -12,6 +14,7 @@ export default function HomePage() {
       title: "Grilled Chicken Salad",
       price: "14.99",
       image: "/foods/salad.jpg",
+      description: "bvghcbjsdncgsdvhcs",
     },
   ];
 
@@ -19,10 +22,11 @@ export default function HomePage() {
     <main className="bg-gray-50 min-h-screen">
       <Header />
       <OfferBanner />
-      <div className="container mx-auto px-4 py-8">
+      <div className="mx-auto px-4 py-8">
         <CategorySection title="Appetizers" items={appetizers} />
         <CategorySection title="Salads" items={salads} />
-      </div>
+      </div>{" "}
+      <Footeer />
     </main>
   );
 }
