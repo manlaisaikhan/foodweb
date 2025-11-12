@@ -1,4 +1,4 @@
-import CategorySection from "@/_components/categorysection";
+import CategorySection from "@/_components/CategorySection";
 import Footeer from "@/_components/footer";
 import Header from "@/_components/header";
 import OfferBanner from "@/_components/OfferBanner";

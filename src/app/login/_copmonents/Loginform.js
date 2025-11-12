@@ -1,19 +1,23 @@
+// src/app/login/_components/LoginForm.js
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardAction,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
+  CardDescription,
+  CardFooter,
+  CardAction,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import GoogleSignIn from "./GoogleSignIn";
 
-export function Login() {
+export default function LoginForm() {
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-full max-w-sm mx-auto mt-20">
       <CardHeader>
         <CardTitle>Login to your account</CardTitle>
         <CardDescription>
@@ -23,6 +27,7 @@ export function Login() {
           <Button variant="link">Sign Up</Button>
         </CardAction>
       </CardHeader>
+
       <CardContent>
         <form>
           <div className="flex flex-col gap-6">
@@ -40,7 +45,7 @@ export function Login() {
                 <Label htmlFor="password">Password</Label>
                 <a
                   href="#"
-                  className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                  className="ml-auto text-sm underline-offset-4 hover:underline"
                 >
                   Forgot your password?
                 </a>
@@ -50,13 +55,12 @@ export function Login() {
           </div>
         </form>
       </CardContent>
-      <CardFooter className="flex-col gap-2">
+
+      <CardFooter className="flex flex-col gap-2">
         <Button type="submit" className="w-full">
           Login
         </Button>
-        <Button variant="outline" className="w-full">
-          Login with Google
-        </Button>
+        <GoogleSignIn />
       </CardFooter>
     </Card>
   );
