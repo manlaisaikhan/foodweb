@@ -15,9 +15,9 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <GoogleOAuthProvider clientId="1068387664961-51d7s58ap400kdjg9bqv6pdkeb4uqbj6.apps.googleusercontent.com">
-          {children}
-        </GoogleOAuthProvider>
+        {/* <GoogleOAuthProvider clientId="1068387664961-51d7s58ap400kdjg9bqv6pdkeb4uqbj6.apps.googleusercontent.com"> */}
+        {children}
+        {/* </GoogleOAuthProvider> */}
       </body>
     </html>
   );

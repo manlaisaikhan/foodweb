@@ -10,6 +10,7 @@ import { EditCategoryModal } from "./_components/EditCategoryModal";
 import { AddFoodModal } from "./_components/AddFoodModal";
 import { EditFoodModal } from "./_components/EditFoodModal";
 import { HiMiniUserCircle } from "react-icons/hi2";
+import EditCardsfood from "./_components/editcardfood";
 
 export default function FoodMenu() {
   const [categories, setCategories] = useState([]);
@@ -25,26 +26,37 @@ export default function FoodMenu() {
 
   const [newCategoryName, setNewCategoryName] = useState("");
 
-  // 🧠 LocalStorage-оос category data унших
-  useEffect(() => {
-    const saved = localStorage.getItem("foodCategories");
-    if (saved) {
-      setCategories(JSON.parse(saved));
-    } else {
-      const initial = [{ id: 1, name: "Appetizers", foods: [] }];
-      setCategories(initial);
-      localStorage.setItem("foodCategories", JSON.stringify(initial));
+  // ⭐ Backend-ээс категори татах
+  const getCategories = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/category", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          accept: "application/json",
+        },
+      });
+
+      const data = await response.json();
+
+      // Backend бүтэц → Frontend бүтэц рүү хөрвүүлж байна
+      const formatted = data.map((c) => ({
+        id: c._id,
+        name: c.categoryName,
+        foods: [],
+      }));
+
+      setCategories(formatted);
+    } catch (error) {
+      console.log("Category fetch error:", error);
     }
+  };
+
+  useEffect(() => {
+    getCategories();
   }, []);
 
-  // 🧠 LocalStorage-д хадгалах
-  useEffect(() => {
-    if (categories.length > 0) {
-      localStorage.setItem("foodCategories", JSON.stringify(categories));
-    }
-  }, [categories]);
-
-  // ✅ Category нэмэх
+  // === Category CRUD ===
   const addCategory = () => {
     if (!newCategoryName.trim()) return;
     const newCat = {
@@ -57,14 +69,12 @@ export default function FoodMenu() {
     setOpenCategoryModal(false);
   };
 
-  // ✅ Category устгах
   const deleteCategory = (id) => {
     if (confirm("Are you sure you want to delete this category?")) {
       setCategories(categories.filter((cat) => cat.id !== id));
     }
   };
 
-  // ✅ Category edit
   const saveEditedCategory = (updatedName) => {
     setCategories((prev) =>
       prev.map((cat) =>
@@ -74,7 +84,7 @@ export default function FoodMenu() {
     setOpenEditCategoryModal(false);
   };
 
-  // ✅ Food нэмэх
+  // === Food CRUD ===
   const addFoodToCategory = (food) => {
     setCategories((prev) =>
       prev.map((cat) =>
@@ -86,7 +96,6 @@ export default function FoodMenu() {
     setOpenFoodModal(false);
   };
 
-  // ✅ Food устгах
   const deleteFood = (catId, foodId) => {
     if (confirm("Delete this dish?")) {
       setCategories((prev) =>
@@ -99,7 +108,6 @@ export default function FoodMenu() {
     }
   };
 
-  // ✅ Food edit хадгалах
   const saveEditedFood = (updatedFood) => {
     setCategories((prev) =>
       prev.map((cat) =>
@@ -151,7 +159,7 @@ export default function FoodMenu() {
                   category={selectedCategoryId === cat.id ? cat.name : ""}
                   foodCount={cat.foods.length}
                 />
-                {/* ✏️ */}
+
                 <button
                   onClick={() => {
                     setCategoryToEdit(cat);
@@ -161,7 +169,7 @@ export default function FoodMenu() {
                 >
                   ✎
                 </button>
-                {/* ❌ */}
+
                 <button
                   onClick={() => deleteCategory(cat.id)}
                   className="text-red-500 hover:text-red-700"
@@ -171,7 +179,6 @@ export default function FoodMenu() {
               </div>
             ))}
 
-            {/* Add Category Button */}
             <div
               onClick={() => setOpenCategoryModal(true)}
               className="flex justify-center items-center bg-red-500 rounded-full cursor-pointer w-9 h-9"
@@ -218,6 +225,14 @@ export default function FoodMenu() {
           return null;
         })}
 
+        {openEditFoodModal && (
+          <EditCardsfood
+            food={foodToEdit}
+            onClose={() => setOpenEditFoodModal(false)}
+            onSave={saveEditedFood}
+          />
+        )}
+
         {/* === Modals === */}
         {openCategoryModal && (
           <AddCategoryModal
@@ -240,14 +255,6 @@ export default function FoodMenu() {
           <AddFoodModal
             onClose={() => setOpenFoodModal(false)}
             onAdd={addFoodToCategory}
-          />
-        )}
-
-        {openEditFoodModal && (
-          <EditFoodModal
-            food={foodToEdit}
-            onClose={() => setOpenEditFoodModal(false)}
-            onSave={saveEditedFood}
           />
         )}
       </div>
