@@ -1,4 +1,5 @@
 "use client";
+
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import { useRouter } from "next/navigation";
@@ -9,9 +10,7 @@ export default function GoogleSignIn() {
   const handleLoginSuccess = (res) => {
     const decoded = jwt_decode(res.credential);
 
-
     localStorage.setItem("user", JSON.stringify(decoded));
-
 
     if (decoded.email === "admin@gmail.com") {
       router.push("/admin");

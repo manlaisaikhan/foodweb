@@ -11,6 +11,7 @@ import { AddFoodModal } from "./_components/AddFoodModal";
 import { EditFoodModal } from "./_components/EditFoodModal";
 import { HiMiniUserCircle } from "react-icons/hi2";
 import EditCardsfood from "./_components/editcardfood";
+import { FoodsByCategories } from "./foodsByCategories";
 
 export default function FoodMenu() {
   const [categories, setCategories] = useState([]);
@@ -32,23 +33,29 @@ export default function FoodMenu() {
       const response = await fetch("http://localhost:8000/category", {
         method: "GET",
         headers: {
-          "content-type": "application/json",
-          accept: "application/json",
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
       });
 
-      const data = await response.json();
+      if (!response.ok) {
+        console.log("❌ Backend error: ", response.status);
+        return;
+      }
 
-      // Backend бүтэц → Frontend бүтэц рүү хөрвүүлж байна
+      const data = await response.json();
+      console.log("✅ Backend response:", data);
+
+      // Backend бүтэцтэй тааруулж хөрвүүлэв
       const formatted = data.map((c) => ({
         id: c._id,
         name: c.categoryName,
-        foods: [],
+        foods: c.foods || [], // backend-д foods байвал ашиглана
       }));
 
       setCategories(formatted);
     } catch (error) {
-      console.log("Category fetch error:", error);
+      console.log("❌ Fetch error:", error);
     }
   };
 
@@ -59,11 +66,13 @@ export default function FoodMenu() {
   // === Category CRUD ===
   const addCategory = () => {
     if (!newCategoryName.trim()) return;
+    ``;
     const newCat = {
       id: Date.now(),
       name: newCategoryName.trim(),
       foods: [],
     };
+
     setCategories([...categories, newCat]);
     setNewCategoryName("");
     setOpenCategoryModal(false);
@@ -189,7 +198,7 @@ export default function FoodMenu() {
         </div>
 
         {/* === Food Section === */}
-        {categories.map((cat) => {
+        {/* {categories.map((cat) => {
           if (selectedCategoryId === null || selectedCategoryId === cat.id) {
             return (
               <div
@@ -207,6 +216,7 @@ export default function FoodMenu() {
                       setOpenFoodModal(true);
                     }}
                   />
+
                   {cat.foods.map((food) => (
                     <FoodCard
                       key={food.id}
@@ -223,6 +233,18 @@ export default function FoodMenu() {
             );
           }
           return null;
+        })} */}
+
+        {/* === Food Section === */}
+
+        {categories.map((item, index) => {
+          return (
+            <FoodsByCategories
+              key={index}
+              categoryId={item.id}
+              categoryName={item.name}
+            />
+          );
         })}
 
         {openEditFoodModal && (

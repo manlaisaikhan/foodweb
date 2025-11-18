@@ -19,8 +19,8 @@ export default function Footeer() {
 
       <div className="w-full px-20 py-14 grid grid-cols-1 md:grid-cols-4 gap-10">
         <div>
-          <div className="flex items-center gap-2">
-            <div className="text-2xl font-bold flex items-center gap-2">
+          <div className=" items-center gap-2">
+            <div className="text-2xl font-bold  items-center gap-2">
               <Foodicon />
               <span className="text-red-500">Nom</span>Nom
             </div>
