@@ -7,13 +7,13 @@ export default function FoodCard({ food }) {
         className="w-[365px] h-[210px] object-cover "
       />
       <div className=" flex justify-between ">
-        <h3 className=" flex flex-row justify-between text-2xl items-center  font-semibold text-gray-800">
-          {food.title}
+        <h3 className=" flex flex-row justify-between text-lg items-center  font-semibold text-gray-800">
+          {food.foodName}
         </h3>
-        <p className="text-red-500 font-bold ">${food.price}</p>
+        <p className="text-red-500 font-bold ">{food.price}$</p>
       </div>
       <p className="text-gray-600 text-sm mt-4 line-clamp-2">
-        {food.description}
+        {food.ingredients}
       </p>{" "}
     </div>
   );
